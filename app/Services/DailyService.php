@@ -89,4 +89,47 @@ class DailyService
         return DirectionLog::where('id', $directionlog_id)->value('name');
     }
 
+    public function getSummaryData()
+    {
+        $data['week'] = DirectionLog::whereBetween('created_at', [date("Y-m-d", strtotime("this week")), Carbon::now()])->sum('money');
+        $data['mouth'] = DirectionLog::whereBetween('created_at', [date('Y-m-01', strtotime(date("Y-m-d"))), Carbon::now()])->sum('money');
+        return $data;
+    }
+
+    public  function getSurplus()
+    {
+        $mouth_again = date('Y-m-01', strtotime(date("Y-m-d")));
+        $now = Carbon::now();
+        return Direction::query()->select('id', 'name', 'stock')->get()->map(function ($item)use($mouth_again, $now){
+            $used = DirectionLog::whereBetween('created_at', [$mouth_again, $now])->where('direction_id', $item->id)->sum('money');
+            $item->used = $used;
+            $item->surplus = $item->stock - $used;
+            return $item->toArray();
+        })->all();
+
+    }
+
+    public function getData($type = 1)
+    {
+        $now = time();
+        switch ($type) {
+            case 1:
+                $start = date("Y-m-d", strtotime("this week"));
+                break;
+            case 2:
+                $start = date('Y-m-01', strtotime(date("Y-m-d")));
+                break;
+            case 3:
+                $start = date('Y-m-d', mktime(0, 0, 0, 1, 1, date('Y', $now)));
+                break;
+            default:
+                $start = '2019-01-01';
+        }
+
+        $directions = Direction::query()->select('name', 'id')->get();
+        foreach ($directions as $direction) {
+            $data[$direction->name] = DirectionLog::whereBetween('created_at', [$start, Carbon::now()])->where('direction_id', $direction->id)->sum('money');
+        }
+        return $data;
+    }
 }
