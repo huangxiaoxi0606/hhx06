@@ -35,7 +35,7 @@ class DailyController extends AdminController
         $grid->column('money', __(trans('hhx.money')));
         $grid->column('created_at', __(trans('hhx.created_at')));
         $grid->column('updated_at', __(trans('hhx.updated_at')));
-        $grid->model()->where('id','desc');
+        $grid->model()->orderBy('id', 'desc');
         return $grid;
     }
 

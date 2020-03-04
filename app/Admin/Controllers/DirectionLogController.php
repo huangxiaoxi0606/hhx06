@@ -40,7 +40,7 @@ class DirectionLogController extends AdminController
         $grid->column('week_day', __(trans('hhx.week_day')))->using(config('hhx.week_day'));
         $grid->column('created_at', __(trans('hhx.created_at')));
         $grid->column('updated_at', __(trans('hhx.updated_at')));
-        $grid->model()->where('id','desc');
+        $grid->model()->orderBy('id', 'desc');
         return $grid;
     }
 
