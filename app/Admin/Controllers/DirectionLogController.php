@@ -7,6 +7,8 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Encore\Admin\Widgets\Box;
+use Encore\Admin\Widgets\Table;
 
 class DirectionLogController extends AdminController
 {
@@ -25,7 +27,16 @@ class DirectionLogController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new DirectionLog());
-
+        $grid->header(function () {
+            $data_s = app('daily')->getSummaryData();
+            $table = new Table(['id','名称', '月初额度', '已使用', '剩余'],app('daily')->getSurplus());
+            $box = new Box('月度表格 本周:' . $data_s['week'] . '本月:' . $data_s['mouth'], $table);
+            $box->removable();
+            $box->collapsable();
+            $box->style('primary');
+            $box->solid();
+            return $box;
+        });
         $grid->column('id', __('Id'));
         $grid->column('direction_id', __(trans('hhx.direction_id')))->display(function ($direction_id){
             return app('daily')->getDirectionName($direction_id);

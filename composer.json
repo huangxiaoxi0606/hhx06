@@ -13,6 +13,7 @@
         "encore/laravel-admin": "^1.7",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.5",
+        "hhx/echart": "^0.0.2",
         "laravel-admin-ext/media-player": "^1.1",
         "laravel/framework": "^6.2",
         "laravel/tinker": "^2.0",

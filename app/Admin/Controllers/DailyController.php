@@ -3,10 +3,12 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Daily;
+use App\Models\DirectionLog;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Encore\Admin\Widgets\Box;
 
 class DailyController extends AdminController
 {
@@ -25,7 +27,18 @@ class DailyController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Daily());
-
+        $grid->header(function () {
+            $data = app('daily')->getSummaryData();
+            $title = 'DirectionData';
+            $table = '<p class = "font" style="color:darkgrey">本周：'.$data['week'].'</p></br><p class = "font" style="color:grey">本月： '.$data['mouth'].'</p>';
+            $box = new Box($title, $table);
+            $box->removable();
+            $box->collapsable();
+            $box->style('primary');
+            $box->solid();
+            $box->scrollable();
+            return $box;
+        });
         $grid->column('id', __('Id'));
         $grid->column('Img', __(trans('hhx.Img')))->image();
         $grid->column('collocation', __(trans('hhx.collocation')))->image();

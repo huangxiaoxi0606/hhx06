@@ -16,6 +16,8 @@ Route::group([
     $router->resource('interest_log', InterestLogController::class);
     $router->resource('direction', DirectionController::class);
     $router->resource('direction_log', DirectionLogController::class);
+    $router->resource('direction_week', DirectionWeekController::class);
+    $router->any('direction_log_week', 'DirectionWeekController@week');
     $router->resource('asset', AssetController::class);
     $router->resource('accessories', AccessoriesController::class);
     $router->resource('clothes', ClothesController::class);

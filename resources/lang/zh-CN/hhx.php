@@ -141,16 +141,18 @@ return [
     'weibo_info_id'       => '微博信息Id',
     'pic_num'             => '图片个数',
 
-    'avatar_hd'             => '微博头像',
-    'cover_image_phone'             => '手机封面图',
-    'description'             => '自述',
-    'follow_count'             => 'follow个数',
-    'followers_count'             => 'follower个数',
-    'gender'             => '性别',
-    'mbrank'             => '未知1',
-    'mbtype'             => '未知2',
-    'w_screen_name'             => '微博名字',
-    'statuses_count'             => '微博个数',
+    'avatar_hd'           => '微博头像',
+    'cover_image_phone'   => '手机封面图',
+    'description'         => '自述',
+    'follow_count'        => 'follow个数',
+    'followers_count'     => 'follower个数',
+    'gender'              => '性别',
+    'mbrank'              => '未知1',
+    'mbtype'              => '未知2',
+    'w_screen_name'       => '微博名字',
+    'statuses_count'      => '微博个数',
+
+    'list'                => '列表',
 
 
 
