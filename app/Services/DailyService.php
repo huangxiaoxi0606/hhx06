@@ -53,8 +53,8 @@ class DailyService
         }
         Daily::whereId($model->daily_id)->increment('money', $now_money);
         Direction::whereId($model->direction_id)->increment('all_num', $now_money);
-        if ($model->travel->id != 0) {
-            HhxTravel::where('id', $model->travel->id)->increment('money', $now_money);
+        if ($model->travel_id != 0) {
+            HhxTravel::where('id', $model->travel_id)->increment('money', $now_money);
         }
     }
 
