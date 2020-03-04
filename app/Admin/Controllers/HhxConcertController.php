@@ -71,7 +71,7 @@ class HhxConcertController extends AdminController
         $form = new Form(new HhxConcert());
 
         $form->text('name', __(trans('hhx.concert_name')));
-        $form->image('pic', __(trans('hhx.concert_pic')));
+        $form->image('pic', __(trans('hhx.concert_pic')))->move('hhx/concert')->uniqueName();
         $form->text('singer', __(trans('hhx.singer')));
         $form->decimal('money', __(trans('hhx.concert_money')));
         $form->datetime('show_time', __(trans('hhx.show_time')))->default(date('Y-m-d H:i:s'));

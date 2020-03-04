@@ -76,7 +76,7 @@ class DirectionController extends AdminController
 
         $form->text('name', __(trans('hhx.name')));
         $form->text('intro', __(trans('hhx.intro')));
-        $form->image('Img', __(trans('hhx.img')));
+        $form->image('Img', __(trans('hhx.img')))->move('daily/direction')->uniqueName();
         $form->select('status', __(trans('hhx.status')))->options(config('hhx.status'));;
         $form->number('order_num', __(trans('hhx.order_num')));
         $form->hidden('all_num', __(trans('hhx.all_num')))->default(0.00);

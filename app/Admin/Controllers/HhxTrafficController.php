@@ -52,7 +52,7 @@ class HhxTrafficController extends AdminController
         $show = new Show(HhxTraffic::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('img', __(trans('hhx.img')));
+        $show->field('img', __(trans('hhx.img')))->move('hhx/traffic')->uniqueName();
         $show->field('name', __(trans('hhx.name')));
         $show->field('illustrate', __(trans('hhx.illustrate')));
         $show->field('money', __(trans('hhx.traffic_money')));

@@ -71,8 +71,8 @@ class DailyController extends AdminController
     {
         $form = new Form(new Daily());
 
-        $form->image('Img', __(trans('hhx.Img')))->move('public/daily/img')->uniqueName();
-        $form->image('collocation', __(trans('hhx.collocation')))->move('public/daily/collocation')->uniqueName();
+        $form->image('Img', __(trans('hhx.Img')))->move('daily/img')->uniqueName();
+        $form->image('collocation', __(trans('hhx.collocation')))->move('daily/collocation')->uniqueName();
         $form->number('score', __(trans('hhx.score')))->default(5);
         $form->text('grow_up', __(trans('hhx.grow_up')));
         $form->text('summary', __(trans('hhx.summary')));
