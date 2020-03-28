@@ -63,7 +63,7 @@ class NoteController extends AdminController
         $form = new Form(new Note());
 
         $form->text('name', __(trans('hhx.name')));
-        $form->textarea('editor', __(trans('hhx.content')));
+        $form->editor('content', __(trans('hhx.content')));
 
         return $form;
     }

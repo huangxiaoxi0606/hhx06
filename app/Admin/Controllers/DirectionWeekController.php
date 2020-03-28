@@ -4,6 +4,8 @@ namespace App\Admin\Controllers;
 
 use App\Models\Direction;
 use App\Models\DirectionLog;
+use App\Services\DailyService;
+use App\Services\ServiceManager;
 use Carbon\Carbon;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -57,7 +59,7 @@ class DirectionWeekController extends AdminController
         return $content->header('花销分布')
             ->row(function (Row $row) {
                 $row->column(4, function (Column $column) {
-                    $data = app('daily')->getData(1);
+                    $data = $this->getDailyService()->getData(1);
                     $dt = [];
                     foreach ($data as $k => $da) {
                         $d['name'] = $k;
@@ -78,7 +80,7 @@ class DirectionWeekController extends AdminController
                     $column->row(new Box('本周花销', HhxEchart::pie($options)));
                 });
                 $row->column(4, function (Column $column) {
-                    $data = app('daily')->getData(2);
+                    $data = $this->getDailyService()->getData(2);
                     $dt = [];
                     foreach ($data as $k => $da) {
                         $d['name'] = $k;
@@ -99,7 +101,7 @@ class DirectionWeekController extends AdminController
                     $column->row(new Box('本月花销', HhxEchart::pie($options)));
                 });
                 $row->column(4, function (Column $column) {
-                    $data = app('daily')->getData(3);
+                    $data = $this->getDailyService()->getData(3);
                     $dt = [];
                     foreach ($data as $k => $da) {
                         $d['name'] = $k;
@@ -120,6 +122,12 @@ class DirectionWeekController extends AdminController
                     $column->row(new Box('本年花销', HhxEchart::pie($options)));
                 });
             });
+    }
+    protected function getDailyService(): DailyService
+    {
+        return ServiceManager::getInstance()->dailyService(
+            DailyService::class
+        );
     }
 
 }

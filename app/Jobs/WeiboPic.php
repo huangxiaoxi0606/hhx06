@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Services\ServiceManager;
+use App\Services\WeiboService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -29,7 +31,13 @@ class WeiboPic implements ShouldQueue
      */
     public function handle()
     {
-        //
-        app('weibo')->parseWeiboPic();
+        $this->getWeiboService()->parseWeiboPic();
+    }
+
+    protected function getWeiboService(): WeiboService
+    {
+        return ServiceManager::getInstance()->weiboService(
+            WeiboService::class
+        );
     }
 }

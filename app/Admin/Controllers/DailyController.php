@@ -4,6 +4,8 @@ namespace App\Admin\Controllers;
 
 use App\Models\Daily;
 use App\Models\DirectionLog;
+use App\Services\DailyService;
+use App\Services\ServiceManager;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -28,7 +30,7 @@ class DailyController extends AdminController
     {
         $grid = new Grid(new Daily());
         $grid->header(function () {
-            $data = app('daily')->getSummaryData();
+            $data = $this->getDailyService()->getSummaryData();
             $title = 'DirectionData';
             $table = '<p class = "font" style="color:darkgrey">本周：'.$data['week'].'</p></br><p class = "font" style="color:grey">本月： '.$data['mouth'].'</p>';
             $box = new Box($title, $table);
@@ -92,5 +94,12 @@ class DailyController extends AdminController
         $form->hidden('money', __(trans('hhx.money')))->default(0.00);
 
         return $form;
+    }
+
+    protected function getDailyService(): DailyService
+    {
+        return ServiceManager::getInstance()->dailyService(
+            DailyService::class
+        );
     }
 }

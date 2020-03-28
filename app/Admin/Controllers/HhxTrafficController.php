@@ -3,6 +3,9 @@
 namespace App\Admin\Controllers;
 
 use App\Models\HhxTraffic;
+use App\Services\DailyService;
+use App\Services\ServiceManager;
+use App\Services\TravelService;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -35,7 +38,7 @@ class HhxTrafficController extends AdminController
         $grid->column('travel_at', __(trans('hhx.travel_at')));
         $grid->column('status', __(trans('hhx.status')))->select(config('hhx.traffic_status'));
         $grid->column('hhx_travel_id', __(trans('hhx.hhx_travel_id')))->display(function ($hhx_travel_id){
-            return app('travel')->getNameByTravelId($hhx_travel_id);
+            return $this->getTravelService()->getNameByTravelId($hhx_travel_id);
         });
 
         return $grid;
@@ -60,7 +63,7 @@ class HhxTrafficController extends AdminController
         $show->field('travel_at', __(trans('hhx.travel_at')));
         $show->field('status', __(trans('hhx.status')))->as(config('hhx.traffic_status'));
         $show->field('hhx_travel_id', __(trans('hhx.hhx_travel_id')))->display(function ($hhx_travel_id){
-            return app('travel')->getNameByTravelId($hhx_travel_id);
+            return $this->getTravelService()->getNameByTravelId($hhx_travel_id);
         });
 
         return $show;
@@ -83,9 +86,23 @@ class HhxTrafficController extends AdminController
         $form->date('travel_at', __(trans('hhx.travel_at')))->default(date('Y-m-d'));
         $form->select('status', __(trans('hhx.status')))->options(config('hhx.traffic_status'))->default(0);
         $form->hidden('direction_id', __('Direction id'))->value(6);
-        $form->select('daily_id', __('Daily id'))->options(app('daily')->getDailyArray())->required();
-        $form->select('hhx_travel_id', __(trans('hhx.hhx_travel_id')))->options(app('travel')->getThereTravel());
+        $form->select('daily_id', __('Daily id'))->options($this->getTravelService()->getDailyService())->required();
+        $form->select('hhx_travel_id', __(trans('hhx.hhx_travel_id')))->options($this->getTravelService()->getThereTravel());
 
         return $form;
+    }
+
+    protected function getTravelService(): TravelService
+    {
+        return ServiceManager::getInstance()->travelService(
+            TravelService::class
+        );
+    }
+
+    protected function getDailyService(): DailyService
+    {
+        return ServiceManager::getInstance()->dailyService(
+            DailyService::class
+        );
     }
 }

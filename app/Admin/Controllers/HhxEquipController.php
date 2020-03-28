@@ -3,6 +3,8 @@
 namespace App\Admin\Controllers;
 
 use App\Models\HhxEquip;
+use App\Services\ServiceManager;
+use App\Services\TravelService;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -29,7 +31,7 @@ class HhxEquipController extends AdminController
         $grid->column('id', __('Id'));
         $grid->column('name', __(trans('hhx.name')));
         $grid->column('hhx_travel_id', __(trans('hhx.hhx_travel_id')))->display(function ($hhx_travel_id){
-            return app('travel')->getNameByTravelId($hhx_travel_id);
+            return $this->getTravelService()->getNameByTravelId($hhx_travel_id);
         });
         $grid->column('status', __(trans('hhx.status')))->select(config('hhx.equip_status'));
         $grid->column('created_at', __(trans('hhx.created_at')));
@@ -51,7 +53,7 @@ class HhxEquipController extends AdminController
         $show->field('id', __('Id'));
         $show->field('name', __(trans('hhx.name')));
         $show->field('hhx_travel_id', __(trans('hhx.hhx_travel_id')))->display(function ($hhx_travel_id){
-            return app('travel')->getNameByTravelId($hhx_travel_id);
+            return $this->getTravelService()->getNameByTravelId($hhx_travel_id);
         });
         $show->field('status', __(trans('hhx.status')))->as(config('hhx.equip_status'));
         $show->field('created_at', __(trans('hhx.created_at')));
@@ -70,9 +72,16 @@ class HhxEquipController extends AdminController
         $form = new Form(new HhxEquip());
 
         $form->text('name', __(trans('hhx.name')));
-        $form->select('hhx_travel_id', __(trans('hhx.hhx_travel_id')))->options(app('travel')->getThereTravel());
+        $form->select('hhx_travel_id', __(trans('hhx.hhx_travel_id')))->options($this->getTravelService()->getThereTravel());
         $form->select('status', __(trans('hhx.status')))->options(config('hhx.equip_status'))->default(0);
 
         return $form;
+    }
+
+    protected function getTravelService(): TravelService
+    {
+        return ServiceManager::getInstance()->travelService(
+            TravelService::class
+        );
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Jobs;
 
 use App\Models\WeiboUser;
+use App\Services\ServiceManager;
+use App\Services\WeiboService;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -33,6 +35,13 @@ class WeiboUserPic implements ShouldQueue
      */
     public function handle()
     {
-        return app('weibo')->parseWeiboUserPic();
+        return $this->getWeiboService()->parseWeiboUserPic();
+    }
+
+    protected function getWeiboService(): WeiboService
+    {
+        return ServiceManager::getInstance()->weiboService(
+            WeiboService::class
+        );
     }
 }
