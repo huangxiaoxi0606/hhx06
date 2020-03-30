@@ -103,7 +103,7 @@ class DirectionLogController extends AdminController
         $form->text('illustration', __(trans('hhx.illustration')))->required();
         $form->text('note', __(trans('hhx.note')))->default('wu');
         $form->decimal('money', __(trans('hhx.money')))->default(0.00)->required();
-        $form->select('week_day', __(trans('hhx.week_day')))->options(config('hhx.week_day'))->default(self::getDailyService()->getDailyService()->getTodayWeek());
+        $form->select('week_day', __(trans('hhx.week_day')))->options(config('hhx.week_day'))->default(self::getDailyService()->getTodayWeek());
         $form->select('travel_id', __(trans('hhx.hhx_travel_id')))->options($this->getTravelService()->getThereTravel())->default(0);
         return $form;
     }
