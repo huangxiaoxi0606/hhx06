@@ -132,4 +132,8 @@ class DailyService
         }
         return $data;
     }
+
+    public function getHhx(){
+        return 'hhx-06';
+    }
 }

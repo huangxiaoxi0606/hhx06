@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Services\DailyService;
+use App\Services\ServiceManager;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -13,8 +15,15 @@ class DirectionLog extends Model
     {
         parent::boot();
         static::saving(function ($model) {
-            app('daily')->afterSaveDirectionLog($model);
+            self::getDailyService()->afterSaveDirectionLog($model);
             unset($model['travel_id']);
         });
+    }
+
+    static protected function getDailyService(): DailyService
+    {
+        return ServiceManager::getInstance()->dailyService(
+            DailyService::class
+        );
     }
 }

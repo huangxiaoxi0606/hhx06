@@ -18,4 +18,5 @@ class ServiceManager extends ResourceManager
     {
         return parent::_getInstance(ServiceManager::class);
     }
+
 }

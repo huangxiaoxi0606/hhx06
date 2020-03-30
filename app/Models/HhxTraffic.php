@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Services\ServiceManager;
+use App\Services\TravelService;
 use Illuminate\Database\Eloquent\Model;
 
 class HhxTraffic extends Model
@@ -10,10 +12,17 @@ class HhxTraffic extends Model
     {
         parent::boot();
         static::saved(function ($model) {
-            app('travel')->saveToDirectionLog($model, 0);
+            self::getTravelService()->saveToDirectionLog($model, 0);
         });
         static::deleted(function ($model) {
-            app('travel')->saveToDirectionLog($model, 1);
+            self::getTravelService()->saveToDirectionLog($model, 1);
         });
+    }
+
+    static protected function getTravelService(): TravelService
+    {
+        return ServiceManager::getInstance()->travelService(
+            TravelService::class
+        );
     }
 }

@@ -68,7 +68,7 @@ class LineController extends AdminController
 
         $form->text('name', __(trans('hhx.name')));
         $form->text('intro', __(trans('hhx.intro')));
-        $form->image('cover', __(trans('hhx.cover')))->move('public/lines')->uniqueName();;
+        $form->image('cover', __(trans('hhx.cover')))->move('public/lines')->uniqueName();
         $form->editor('content', __(trans('hhx.content')));
 
         return $form;

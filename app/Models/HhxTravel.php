@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Services\ServiceManager;
+use App\Services\TravelService;
 use Illuminate\Database\Eloquent\Model;
 
 class HhxTravel extends Model
@@ -11,9 +13,16 @@ class HhxTravel extends Model
         parent::boot();
         static::saved(function ($model) {
             if($model->status == '4'){
-                app('travel')->updateEquip($model->id);
+                self::getTravelService()->updateEquip($model->id);
             }
 
         });
+    }
+
+    static protected function getTravelService(): TravelService
+    {
+        return ServiceManager::getInstance()->travelService(
+            TravelService::class
+        );
     }
 }
