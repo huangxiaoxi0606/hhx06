@@ -73,5 +73,19 @@ return [
         '0' => '形程未结束',
         '1' => '行程结束',
     ],
+    'direction' => [
+        1 => 'Love',
+        2 => 'Shop',
+        3 => 'Product',
+        4 => 'Food',
+        5 => 'Study',
+        6 => 'Travel',
+        7 => 'Family',
+        8 => 'Coffee',
+        9 => 'Extra'
+    ],
+    'qny' => [
+        'url' =>'http://'.env('QINIUYUN_DEFAULT', null)
+    ]
 
 ];

@@ -136,4 +136,19 @@ class DailyService
     public function getHhx(){
         return 'hhx-06';
     }
+
+    public function updateStock()
+    {
+        $last_month = strtotime("-1 month");
+        $last_month_first = date("Y-m-01 00:00:00", $last_month);//上个月第一天`
+        $now = Carbon::now();
+        $direction_logs = DirectionLog::whereBetween('created_at', [$last_month_first, $now])->get();
+        Direction::query()->get()->map(function ($item, $key) use ($direction_logs) {
+            $used = $direction_logs->where('direction_id', $item->id)->sum('money');
+            $item->stock = $item->stock - $used + config($item->name);
+            $item->save();
+        });
+        Log::info(date('Y-m-d') . 'stock its ok');
+    }
+
 }

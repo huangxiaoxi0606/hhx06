@@ -55,6 +55,10 @@ class DirectionLogController extends AdminController
         $grid->column('created_at', __(trans('hhx.created_at')));
         $grid->column('updated_at', __(trans('hhx.updated_at')));
         $grid->model()->orderBy('id', 'desc');
+        $grid->filter(function($filter){
+            $filter->equal('direction_id',__(trans('hhx.direction_id')))->select(self::getDailyService()->getDirectionArray());
+            $filter->between('created_at',__(trans('hhx.created_at')))->datetime();
+        });
         return $grid;
     }
 

@@ -36,7 +36,10 @@ class AssetController extends AdminController
         $grid->column('type', __(trans('hhx.type')));
         $grid->column('created_at', __(trans('hhx.created_at')));
         $grid->column('updated_at', __(trans('hhx.updated_at')));
-
+        $grid->filter(function($filter){
+            $filter->equal('mold',__(trans('hhx.mold')))->select(Asset::$type[$this->str]);
+            $filter->between('created_at',__(trans('hhx.created_at')))->datetime();
+        });
         return $grid;
     }
 
