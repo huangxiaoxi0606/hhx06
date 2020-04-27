@@ -148,7 +148,7 @@ class DailyService
             $item->stock = $item->stock - $used + config($item->name);
             $item->save();
         });
-        Log::info(date('Y-m-d') . 'stock its ok');
+        Log::channel('stock')->debug(date('Y-m-d') . 'stock its ok');
     }
 
 }
