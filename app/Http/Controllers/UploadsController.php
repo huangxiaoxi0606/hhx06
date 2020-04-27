@@ -9,6 +9,7 @@ class UploadsController extends Controller
 {
     public function uploadImg(Request $request)
     {
+        $disk = Storage::disk('qiniu');
         $file = $request->file("mypic");
         if (!empty($file)) {
             foreach ($file as $key => $value) {
@@ -29,13 +30,20 @@ class UploadsController extends Controller
                         // 重命名
                         $filename = time() . \Str::random(6) . "." . $ext;
                         $newFileName = '/' . 'uploads/' . date('Ymd/Hi') . '/' . $filename;
-                        if ($file[$i]->move('uploads/'.date('Ymd/Hi'), $filename)) {
+                        $bool = $disk->put($newFileName, file_get_contents($file[$i] -> getRealPath()));
+                        if ($bool) {
+                            $path = $disk->downloadUrl($newFileName);
                             $m = $m + 1;
                         } else {
                             $k = $k + 1;
                         }
+//                        if ($file[$i]->move('uploads/'.date('Ymd/Hi'), $filename)) {
+//                            $m = $m + 1;
+//                        } else {
+//                            $k = $k + 1;
+//                        }
                         $msg = $m . "张图片上传成功 " . $k . "张图片上传失败<br>";
-                        $return[] = ['ResultData' => 0, 'info' => $msg, 'newFileName' => $newFileName];
+                        $return[] = ['ResultData' => 0, 'info' => $msg, 'newFileName' => $path];
                     } else {
                         return response()->json(['ResultData' => 3, 'info' => '第' . $n . '张图片后缀名不合法!<br/>' . '只支持jpeg/jpg/png/gif格式']);
                     }
