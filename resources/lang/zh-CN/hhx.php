@@ -155,6 +155,13 @@ return [
     'list'                => '列表',
 
 
+    'ins_id'=>'ins_id',
+    'display_url'=>'封面链接',
+    'edge_sidecar_to_children_count'=>'图片个数',
+    'video_url'=>'视频链接',
+    'ins_text'=>'文字内容'
+
+
 
 
 

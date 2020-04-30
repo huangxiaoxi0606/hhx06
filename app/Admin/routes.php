@@ -52,4 +52,8 @@ Route::group([
     $router->resource('weibo_user', WeiboUserController::class);
     $router->resource('weibo_hhx', WeiboHhxController::class);
     $router->resource('weibo_yejin', WeiboYejinController::class);
+    $router->resource('ins', InsController::class);
+    $router->resource('ins-users', InsUserController::class);
+
 });
+

@@ -32,7 +32,7 @@ class DirectionLogController extends AdminController
         $grid = new Grid(new DirectionLog());
         $grid->header(function () {
             $data_s = self::getDailyService()->getSummaryData();
-            $table = new Table(['id', '名称', '月初额度', '已使用', '剩余'], self::getDailyService()->getSurplus());
+            $table = new Table(['id', '名称', '月初额度', '已使用', '剩余', '今年'], self::getDailyService()->getSurplus());
             $box = new Box('月度表格 本周:' . $data_s['week'] . '本月:' . $data_s['mouth'], $table);
             $box->removable();
             $box->collapsable();
@@ -50,14 +50,16 @@ class DirectionLogController extends AdminController
         $grid->column('status', __(trans('hhx.status')))->using(config('hhx.direction_id_status'));
         $grid->column('ok', __('Ok'))->using(config('hhx.ok'));
         $grid->column('illustration', __(trans('hhx.illustration')));
-        $grid->column('money', __(trans('hhx.money')));
+        $grid->column('money', __(trans('hhx.money')))->sortable()->totalRow(function ($money) {
+            return "<span class='text-danger text-bold'><i class='fa fa-yen'></i> {$money} 元</span>";
+        });
         $grid->column('week_day', __(trans('hhx.week_day')))->using(config('hhx.week_day'));
         $grid->column('created_at', __(trans('hhx.created_at')));
         $grid->column('updated_at', __(trans('hhx.updated_at')));
         $grid->model()->orderBy('id', 'desc');
-        $grid->filter(function($filter){
-            $filter->equal('direction_id',__(trans('hhx.direction_id')))->select(self::getDailyService()->getDirectionArray());
-            $filter->between('created_at',__(trans('hhx.created_at')))->datetime();
+        $grid->filter(function ($filter) {
+            $filter->equal('direction_id', __(trans('hhx.direction_id')))->select(self::getDailyService()->getDirectionArray());
+            $filter->between('created_at', __(trans('hhx.created_at')))->datetime();
         });
         return $grid;
     }

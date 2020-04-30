@@ -24,8 +24,6 @@ class FlightHandler
         $data_us = app('information')->curl_get($url);
         $data = json_decode(substr($data_us,6,-1),true)["data"]["flights"];
         app('information')->saveToFlight($data);
-
-
     }
 
 
