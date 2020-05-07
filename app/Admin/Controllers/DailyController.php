@@ -91,6 +91,7 @@ class DailyController extends AdminController
         $form->number('score', __(trans('hhx.score')))->default(5);
         $form->text('grow_up', __(trans('hhx.grow_up')));
         $form->text('summary', __(trans('hhx.summary')));
+        $form->date('date', '时间')->default(date("Y-m-d", time()));
         $form->hidden('money', __(trans('hhx.money')))->default(0.00);
 
         return $form;

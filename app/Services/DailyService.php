@@ -65,7 +65,7 @@ class DailyService
 
     public function getDailyToDate($key)
     {
-        $value = Daily::whereId($key)->value('created_at');
+        $value = Daily::whereId($key)->value('date');
         return $value ? $value->toDateString() : $value;
     }
 
