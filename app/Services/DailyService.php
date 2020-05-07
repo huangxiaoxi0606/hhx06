@@ -145,7 +145,7 @@ class DailyService
         $direction_logs = DirectionLog::whereBetween('created_at', [$last_month_first, $now])->get();
         Direction::query()->get()->map(function ($item, $key) use ($direction_logs) {
             $used = $direction_logs->where('direction_id', $item->id)->sum('money');
-            $item->stock = $item->stock - $used + config($item->name);
+            $item->stock = $item->stock - $used + config('hhx.stock')[$item->id];
             $item->save();
         });
         Log::channel('stock')->debug(date('Y-m-d') . 'stock its ok');
