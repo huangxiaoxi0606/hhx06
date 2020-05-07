@@ -54,6 +54,5 @@ Route::group([
     $router->resource('weibo_yejin', WeiboYejinController::class);
     $router->resource('ins', InsController::class);
     $router->resource('ins-users', InsUserController::class);
-
 });
 
