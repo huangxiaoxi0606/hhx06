@@ -32,9 +32,9 @@ class DailyService
 
     public function getDailyArray()
     {
-        $data = Daily::query()->limit(7)->orderBy('id', 'desc')->pluck('created_at', 'id')
+        $data = Daily::query()->limit(7)->orderBy('id', 'desc')->pluck('date', 'id')
             ->map(function ($item, $key) {
-                return $item->toDateString();
+                return $item;
             });
         return $data->all();
     }
@@ -66,7 +66,7 @@ class DailyService
     public function getDailyToDate($key)
     {
         $value = Daily::whereId($key)->value('date');
-        return $value ? $value->toDateString() : $value;
+        return $value ? $value : $value;
     }
 
     public function getInterestName($key)
