@@ -13,7 +13,7 @@ class CreateInsUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('ins_user', function (Blueprint $table) {
+        Schema::create('ins_users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name',32)->nullable()->default('')->comment('名字');
             $table->string('ins_id',32)->nullable()->default('')->comment('insId');

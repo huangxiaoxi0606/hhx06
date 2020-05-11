@@ -26,7 +26,11 @@ class InsUserController extends AdminController
     {
         $grid = new Grid(new InsUser());
 
-
+        $grid->column('id', __('Id'));
+        $grid->column('name', __('Name'));
+        $grid->column('ins_id', __('Ins id'));
+        $grid->column('created_at', __(trans('hhx.created_at')));
+        $grid->column('updated_at', __(trans('hhx.updated_at')));
 
         return $grid;
     }
@@ -41,7 +45,11 @@ class InsUserController extends AdminController
     {
         $show = new Show(InsUser::findOrFail($id));
 
-
+        $show->field('id', __('Id'));
+        $show->field('name', __('Name'));
+        $show->field('ins_id', __('Ins id'));
+        $show->field('created_at', __(trans('hhx.created_at')));
+        $show->field('updated_at', __(trans('hhx.updated_at')));
 
         return $show;
     }
@@ -55,7 +63,8 @@ class InsUserController extends AdminController
     {
         $form = new Form(new InsUser());
 
-
+        $form->text('name', __('Name'));
+        $form->text('ins_id', __('Ins id'));
 
         return $form;
     }
