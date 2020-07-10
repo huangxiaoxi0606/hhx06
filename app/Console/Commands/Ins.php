@@ -38,6 +38,8 @@ class Ins extends Command
      */
     public function handle()
     {
-        InsHandlers::getData();
+//        InsHandlers::main();
+//        InsHandlers::parseJson();
+        InsHandlers::parsePicUrl();
     }
 }
