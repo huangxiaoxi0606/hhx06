@@ -16,7 +16,6 @@ class DirectionLog extends Model
         parent::boot();
         static::saving(function ($model) {
             self::getDailyService()->afterSaveDirectionLog($model);
-            unset($model['travel_id']);
         });
     }
 

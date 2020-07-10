@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class Direction extends Model
 {
@@ -12,7 +13,7 @@ class Direction extends Model
 
     public function getThisYearAttribute()
     {
-        $l = DirectionLog::whereDirectionId($this->id)->where('created_at', '>', '2020-01-01');
-        return $l->whereStatus(0)->sum('money') - $l->whereStatus(1)->sum('money');
+        $l = DirectionLog::whereDirectionId($this->id)->where('created_at', '>', '2020-01-01')->get();
+        return $l->where('status',0)->sum('money') - $l->where('status',1)->sum('money');
     }
 }

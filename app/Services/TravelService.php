@@ -54,6 +54,7 @@ class TravelService
 
     public function getTravelBillById($id)
     {
+
         $bill = DirectionLog::where('travel_id', $id)->get()->map(function ($item) {
             $item = $item->only(['illustration', 'status', 'money']);
             $item['status'] = $item['status'] == 0 ? '减少' : '增加';

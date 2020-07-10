@@ -32,7 +32,7 @@ class DailyService
 
     public function getDailyArray()
     {
-        $data = Daily::query()->limit(7)->orderBy('id', 'desc')->pluck('date', 'id')
+        $data = Daily::query()->limit(10)->orderBy('id', 'desc')->pluck('date', 'id')
             ->map(function ($item, $key) {
                 return $item;
             });
@@ -91,19 +91,28 @@ class DailyService
 
     public function getSummaryData()
     {
-        $data['week'] = DirectionLog::whereBetween('created_at', [date("Y-m-d", strtotime("this week")), Carbon::now()])->sum('money');
-        $data['mouth'] = DirectionLog::whereBetween('created_at', [date('Y-m-01', strtotime(date("Y-m-d"))), Carbon::now()])->sum('money');
+        $weekIds = Daily::where('date','>=',date("Y-m-d", strtotime("this week")))->pluck('id');
+        $mouthIds = Daily::where('date','>=',date('Y-m-01', strtotime(date("Y-m-d"))))->pluck('id');
+        $week = DirectionLog::whereIn('daily_id',$weekIds)->get();
+        $mouth = DirectionLog::whereIn('daily_id',$mouthIds)->get();
+        $data['week'] = $week->sum('money')-2*($week->where('status',1)->sum('money'));
+        $data['mouth'] = $mouth->sum('money')-2*($mouth->where('status',1)->sum('money'));
         return $data;
     }
 
     public  function getSurplus()
     {
-        $mouth_again = date('Y-m-01', strtotime(date("Y-m-d")));
-        $now = Carbon::now();
-        return Direction::query()->select('id', 'name', 'stock')->get()->map(function ($item)use($mouth_again, $now){
-            $used = DirectionLog::whereBetween('created_at', [$mouth_again, $now])->where('direction_id', $item->id)->sum('money');
-            $item->used = $used;
-            $item->surplus = $item->stock - $used;
+        $mouthIds = Daily::where('date','>=',date('Y-m-01', strtotime(date("Y-m-d"))))->pluck('id');
+
+        return Direction::query()->select('id', 'name', 'stock')->get()->map(function ($item)use($mouthIds){
+            $all = DirectionLog::whereIn('daily_id',$mouthIds)->where('direction_id', $item->id)->get();
+            $sub = $all->where('status',0)->sum('money');
+            $add = $all->where('status',1)->sum('money');
+            $used = $sub-$add;
+            $item->used = $used-(config('hhx.stock')[$item->id])>0?'<p style="color:red">'.$used.'</p>':$used;
+            $surplus = $item->stock - $used;
+            $item->surplus = $surplus<0?'<p style="color:yellowgreen">'.$surplus.'</p>':$surplus;
+            $item->stovk = config('hhx.stock')[$item->id];
             return $item->toArray();
         })->all();
 

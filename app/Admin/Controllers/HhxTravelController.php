@@ -8,6 +8,8 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Encore\Admin\Widgets\Table;
+use App\Services\ServiceManager;
+use App\Services\TravelService;
 use function foo\func;
 
 class HhxTravelController extends AdminController
@@ -32,10 +34,10 @@ class HhxTravelController extends AdminController
         $grid->column('name', __(trans('hhx.name')));
         $grid->column('topic', __(trans('hhx.topic')));
         $grid->column('money', __(trans('hhx.hhx_money')))->modal('账单', function ($model) {
-            return new Table(['名字', '状态', '金额'], app('travel')->getTravelBillById($model->id));
+            return new Table(['名字', '状态', '金额'], self::getTravelService()->getTravelBillById($model->id));
         });
-        $grid->column('days', __(trans('hhx.days')))->select(config('hhx.travel_status'));
-        $grid->column('status', __(trans('hhx.status')));
+        $grid->column('days', __(trans('hhx.days')));
+        $grid->column('status', __(trans('hhx.status')))->select(config('hhx.travel_status'));
         $grid->column('travel_start', __(trans('hhx.travel_start')));
         $grid->column('travel_end', __(trans('hhx.travel_end')));
 
@@ -89,5 +91,12 @@ class HhxTravelController extends AdminController
         $form->editor('note', __(trans('hhx.note')));
 
         return $form;
+    }
+
+    static protected function getTravelService(): TravelService
+    {
+        return ServiceManager::getInstance()->travelService(
+            TravelService::class
+        );
     }
 }

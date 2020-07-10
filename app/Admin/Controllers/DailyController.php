@@ -48,8 +48,9 @@ class DailyController extends AdminController
         $grid->column('grow_up', __(trans('hhx.grow_up')));
         $grid->column('summary', __(trans('hhx.summary')));
         $grid->column('money', __(trans('hhx.money')));
+        $grid->column('date', __(trans('hhx.date')));
         $grid->column('created_at', __(trans('hhx.created_at')));
-        $grid->column('updated_at', __(trans('hhx.updated_at')));
+
         $grid->model()->orderBy('id', 'desc');
         return $grid;
     }
@@ -91,7 +92,7 @@ class DailyController extends AdminController
         $form->number('score', __(trans('hhx.score')))->default(5);
         $form->text('grow_up', __(trans('hhx.grow_up')));
         $form->text('summary', __(trans('hhx.summary')));
-        $form->date('date', '时间')->default(date("Y-m-d", time()));
+        $form->date('date', __(trans('hhx.date')))->default(date("Y-m-d", time()));
         $form->hidden('money', __(trans('hhx.money')))->default(0.00);
 
         return $form;
