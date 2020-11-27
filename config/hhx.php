@@ -82,12 +82,13 @@ return [
         6 => 'Travel',
         7 => 'Family',
         8 => 'Coffee',
-        9 => 'Extra'
+        9 => 'Extra',
+        10 => 'Room'
     ],
     'qny' => [
-        'url' =>'http://'.env('QINIUYUN_DEFAULT', null)
+        'url' => 'http://' . env('QINIUYUN_DEFAULT', null)
     ],
-    'stock' =>[
+    'stock' => [
         1 => 600,
         2 => 250,
         3 => 200,
@@ -96,7 +97,8 @@ return [
         6 => 1000,
         7 => 200,
         8 => 100,
-        9 => 50
+        9 => 50,
+        10 => 10000
     ]
 
 ];
