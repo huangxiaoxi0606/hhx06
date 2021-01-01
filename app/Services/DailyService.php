@@ -132,7 +132,7 @@ class DailyService
                 $start = date('Y-m-d', mktime(0, 0, 0, 1, 1, date('Y', $now)));
                 break;
             default:
-                $start = '2019-01-01';
+                $start = '2021-01-01';
         }
 
         $directions = Direction::query()->select('name', 'id')->get();
