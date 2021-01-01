@@ -32,9 +32,11 @@ class DirectionLogController extends AdminController
 //         $hh = self::getDailyService()->getSurplus();
 //        $hh = DirectionLog::where('direction_id',6)->where('created_at','>=','2020-01-01')->where('status',1)->sum('money');
 //        dd($hh);
+//        dd(self::getDailyService()->getSurplus());
         $grid = new Grid(new DirectionLog());
         $grid->header(function () {
             $data_s = self::getDailyService()->getSummaryData();
+//            dd(self::getDailyService()->getSurplus());
             $table = new Table(['id', '名称', '月初额度', '已使用', '剩余','月度', '今年'], self::getDailyService()->getSurplus());
             $box = new Box('月度表格 本周:' . $data_s['week'] . '本月:' . $data_s['mouth'], $table);
             $box->removable();
