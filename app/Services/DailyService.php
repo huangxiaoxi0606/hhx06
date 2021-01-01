@@ -103,7 +103,7 @@ class DailyService
     public  function getSurplus()
     {
         $mouthIds = Daily::where('date','>=',date('Y-m-01', strtotime(date("Y-m-d"))))->pluck('id');
-
+dd(date('Y-m-01', strtotime(date("Y-m-d"))));
         return Direction::query()->select('id', 'name', 'stock')->get()->map(function ($item)use($mouthIds){
             $all = DirectionLog::whereIn('daily_id',$mouthIds)->where('direction_id', $item->id)->get();
             $sub = $all->where('status',0)->sum('money');
